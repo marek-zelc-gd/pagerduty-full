@@ -7,6 +7,8 @@ module PagerDuty
   class Full
     attr_reader :apikey, :subdomain, :http_proxy
 
+
+
     @@proxy_args = []
 
     def initialize(apikey, subdomain, *http_proxy)
@@ -56,7 +58,7 @@ module PagerDuty
           when Net::HTTPSuccess
             output = JSON.parse(res.body)
             whole_output.each_key do |key|
-              if (key != "limit" and key != "offset" and key != "total" and key != "active_account_users" and key != "query")
+              if (key != "limit" && key != "offset" && key != "total" && key != "active_account_users" && key != "query" && key != "more")
                 if (output.has_key?(key))
                   output[key].each do |o|
                     whole_output[key].push(o)
@@ -70,9 +72,8 @@ module PagerDuty
             res.error!
         end
 
-        if (!output["limit"].nil? and !output["offset"].nil? and !output["total"].nil?)
-          if (output["offset"] + output["limit"] < output["total"])
-            params["limit"] = 100
+        if !output["limit"].nil? && !output["offset"].nil?
+          if output["more"]
             params["offset"] = output["offset"] + output["limit"]
           else
             finished = true

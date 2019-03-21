@@ -64,6 +64,10 @@ module PagerDuty
         api_call("incidents/#{id}/notes", {})
       end
 
+      def log_entries(id)
+        api_call("incidents/#{id}/log_entries", {})
+      end
+
     end
   end
 end
