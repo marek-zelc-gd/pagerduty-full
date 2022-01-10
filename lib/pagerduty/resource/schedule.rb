@@ -14,7 +14,8 @@ module PagerDuty
       def find(id, since_date = nil, until_date = nil)
         api_call("schedules/#{id}", {
             :since => since_date,
-            :until => until_date
+            :until => until_date,
+            :time_zone => "UTC"
         })
       end
 
